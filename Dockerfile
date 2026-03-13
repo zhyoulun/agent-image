@@ -44,9 +44,12 @@ RUN apt-get update \
 RUN python3 -m pip install --no-cache-dir --break-system-packages xiaohongshu-cli \
     && ln -sf /usr/local/bin/xhs /usr/local/bin/xiaohongshu-cli
 
+COPY chromium-wrapper.sh /usr/local/bin/chromium
+COPY chromium.desktop /usr/share/applications/chromium.desktop
 COPY start-desktop.sh /usr/local/bin/start-desktop.sh
 
-RUN chmod +x /usr/local/bin/start-desktop.sh
+RUN ln -sf /usr/local/bin/chromium /usr/local/bin/chromium-browser \
+    && chmod +x /usr/local/bin/chromium /usr/local/bin/start-desktop.sh
 
 EXPOSE 5901 6080
 

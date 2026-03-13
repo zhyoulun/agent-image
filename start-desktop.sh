@@ -15,6 +15,14 @@ chmod 1777 /tmp/.X11-unix
 chmod 700 "${XDG_RUNTIME_DIR}"
 chown -R "${DESKTOP_USER}:${DESKTOP_USER}" "${DESKTOP_HOME}" "${XDG_RUNTIME_DIR}"
 
+if [[ -f /usr/share/applications/chromium.desktop ]]; then
+  mkdir -p "${DESKTOP_HOME}/Desktop"
+  chown "${DESKTOP_USER}:${DESKTOP_USER}" "${DESKTOP_HOME}/Desktop"
+  cp /usr/share/applications/chromium.desktop "${DESKTOP_HOME}/Desktop/Chromium.desktop"
+  chmod +x "${DESKTOP_HOME}/Desktop/Chromium.desktop"
+  chown "${DESKTOP_USER}:${DESKTOP_USER}" "${DESKTOP_HOME}/Desktop/Chromium.desktop"
+fi
+
 VNC_AUTH_ARGS=(-nopw)
 if [[ -n "${VNC_PASSWORD:-}" ]]; then
   runuser -u "${DESKTOP_USER}" -- x11vnc -storepasswd "${VNC_PASSWORD}" "${DESKTOP_HOME}/.vnc/passwd" >/dev/null
