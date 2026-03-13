@@ -38,6 +38,13 @@ fabulerg/agent-image
 - `latest`
 - UTC 日期标签，例如 `2026-03-13`
 
+同时会发布多架构镜像清单，当前支持：
+
+- `linux/amd64`
+- `linux/arm64`
+
+说明：Docker 里通常说的 `x86_64` 就是 `amd64`。
+
 ### 4. 触发发布
 
 提交代码并推送到 `main`：
