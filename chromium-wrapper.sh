@@ -20,7 +20,7 @@ find_chromium() {
 
 chromium_bin="$(find_chromium || true)"
 if [[ -z "${chromium_bin}" ]]; then
-  printf 'chromium runtime not found under /ms-playwright\n' >&2
+  printf 'chromium runtime not found\n' >&2
   exit 1
 fi
 

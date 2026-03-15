@@ -17,12 +17,14 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         dbus-x11 \
         ffmpeg \
+        git \
         libatk-bridge2.0-0t64 \
         libatk1.0-0t64 \
         libatspi2.0-0t64 \
         libcups2t64 \
         libnspr4 \
         libnss3 \
+        libopenh264-7 \
         nodejs \
         novnc \
         libxcomposite1 \
@@ -36,20 +38,23 @@ RUN apt-get update \
     && useradd -ms /bin/bash agent \
     && python3 -m pip install --no-cache-dir --break-system-packages yt-dlp \
     && npm install -g agent-browser \
-    && agent-browser install \
     && npm cache clean --force \
     && rm -rf /root/.cache/pip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --no-cache-dir --break-system-packages xiaohongshu-cli \
+    && python3 -m playwright install chromium \
     && ln -sf /usr/local/bin/xhs /usr/local/bin/xiaohongshu-cli
 
+COPY agent-browser-wrapper.sh /usr/local/bin/agent-browser
 COPY chromium-wrapper.sh /usr/local/bin/chromium
 COPY chromium.desktop /usr/share/applications/chromium.desktop
 COPY start-desktop.sh /usr/local/bin/start-desktop.sh
 
 RUN ln -sf /usr/local/bin/chromium /usr/local/bin/chromium-browser \
-    && chmod +x /usr/local/bin/chromium /usr/local/bin/start-desktop.sh
+    && ln -sf /usr/local/bin/chromium /usr/bin/chromium \
+    && ln -sf /usr/local/bin/chromium /usr/bin/chromium-browser \
+    && chmod +x /usr/local/bin/agent-browser /usr/local/bin/chromium /usr/local/bin/start-desktop.sh
 
 EXPOSE 5901 6080
 

@@ -6,12 +6,13 @@
 
 - `curl`
 - `ffmpeg`
+- `git`
 - `python3`
 - `yt-dlp`
 - `agent-browser`
 - `xiaohongshu-cli` (`xhs`)
-- Chromium browser runtime for `agent-browser`
 - System `chromium` / `chromium-browser` command and desktop launcher
+- `agent-browser` wired to the system `chromium`
 - XFCE desktop
 - VNC / noVNC remote desktop access
 
@@ -99,6 +100,7 @@ docker run --rm agent-image:local curl --version
 docker run --rm agent-image:local ffmpeg -version
 docker run --rm agent-image:local python3 --version
 docker run --rm agent-image:local yt-dlp --version
+docker run --rm agent-image:local git --version
 docker run --rm agent-image:local agent-browser --version
 docker run --rm agent-image:local xhs --help
 docker run --rm agent-image:local chromium --version
