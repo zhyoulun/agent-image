@@ -8,6 +8,7 @@ VNC_PORT="${VNC_PORT:-5901}"
 NOVNC_PORT="${NOVNC_PORT:-6080}"
 VNC_GEOMETRY="${VNC_GEOMETRY:-1920x1080}"
 VNC_DEPTH="${VNC_DEPTH:-24}"
+CHROMIUM_CDP_PORT="${CHROMIUM_CDP_PORT:-9222}"
 XDG_RUNTIME_DIR="/tmp/runtime-${DESKTOP_USER}"
 
 mkdir -p /tmp/.X11-unix /var/log/desktop "${DESKTOP_HOME}/.vnc" "${XDG_RUNTIME_DIR}"
@@ -50,6 +51,21 @@ x11vnc -display "${DISPLAY}" -forever -shared -rfbport "${VNC_PORT}" "${VNC_AUTH
 
 websockify --web=/usr/share/novnc/ "${NOVNC_PORT}" "localhost:${VNC_PORT}" \
   >/var/log/desktop/novnc.log 2>&1 &
+
+runuser -u "${DESKTOP_USER}" -- bash -lc "
+  export DISPLAY='${DISPLAY}'
+  export XDG_RUNTIME_DIR='${XDG_RUNTIME_DIR}'
+  mkdir -p '${DESKTOP_HOME}/.config/chromium-cdp'
+  exec /usr/local/bin/chromium \
+    --no-sandbox \
+    --no-first-run \
+    --no-default-browser-check \
+    --disable-dev-shm-usage \
+    --remote-debugging-address=127.0.0.1 \
+    --remote-debugging-port='${CHROMIUM_CDP_PORT}' \
+    --user-data-dir='${DESKTOP_HOME}/.config/chromium-cdp' \
+    about:blank
+" >/var/log/desktop/chromium-cdp.log 2>&1 &
 
 cat <<EOF
 Desktop is starting.

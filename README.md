@@ -83,6 +83,14 @@ docker run --rm -it -p 6080:6080 -p 5901:5901 agent-image:local
 - 浏览器访问 `http://localhost:6080/vnc.html`
 - VNC 客户端连接 `localhost:5901`
 
+如果你是直接覆盖默认命令进入 shell：
+
+```bash
+docker run --rm -it agent-image:local bash
+```
+
+那么像 `playwright open`、`playwright codegen` 这类需要图形界面的命令，会自动通过 `xvfb-run` 启动虚拟显示，不需要手动先起 X server。
+
 如果你想加 VNC 密码，可以传入环境变量：
 
 ```bash
