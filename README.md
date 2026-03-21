@@ -10,6 +10,8 @@
 - `python3`
 - `yt-dlp`
 - `agent-browser`
+- `crawlee`
+- `playwright`
 - `xiaohongshu-cli` (`xhs`)
 - System `chromium` / `chromium-browser` command and desktop launcher
 - `agent-browser` wired to the system `chromium`
@@ -91,6 +93,12 @@ docker run --rm -it agent-image:local bash
 
 那么像 `playwright open`、`playwright codegen` 这类需要图形界面的命令，会自动通过 `xvfb-run` 启动虚拟显示，不需要手动先起 X server。
 
+镜像也已经预装 `crawlee` CLI，可以直接在容器里初始化项目，例如：
+
+```bash
+docker run --rm -it agent-image:local bash -lc "mkdir -p /work && cd /work && crawlee create my-crawler"
+```
+
 如果你想加 VNC 密码，可以传入环境变量：
 
 ```bash
@@ -110,6 +118,8 @@ docker run --rm agent-image:local python3 --version
 docker run --rm agent-image:local yt-dlp --version
 docker run --rm agent-image:local git --version
 docker run --rm agent-image:local agent-browser --version
+docker run --rm agent-image:local crawlee --help
+docker run --rm agent-image:local playwright --version
 docker run --rm agent-image:local xhs --help
 docker run --rm agent-image:local chromium --version
 docker run --rm agent-image:local xiaohongshu-cli --help

@@ -41,7 +41,7 @@ RUN apt-get update \
         xvfb \
     && useradd -ms /bin/bash agent \
     && python3 -m pip install --no-cache-dir --break-system-packages yt-dlp \
-    && npm install -g agent-browser playwright \
+    && npm install -g agent-browser crawlee playwright \
     && playwright_bin="$(readlink -f "$(command -v playwright)")" \
     && ln -sf "${playwright_bin}" /usr/local/bin/playwright-real \
     && npm cache clean --force \
